@@ -14,7 +14,7 @@ program TestSstWrite
 #ifndef __GFORTRAN__
 #ifndef __GNUC__
   interface
-     integer function iargc()
+     integer function command_argument_count()
      end function iargc
   end interface
 #endif
@@ -42,17 +42,17 @@ program TestSstWrite
   integer(kind = 8)::localtime
   integer::color, key, testComm
 
-  numargs = iargc()
+  numargs = command_argument_count()
   if ( numargs < 2 ) then
      call usage()
      call exit(1)
   endif
 
 
-  call getarg(1, engine)
-  call getarg(2, filename)
+  call get_command_argument(1, engine)
+  call get_command_argument(2, filename)
   if ( numargs > 2 ) then
-     call getarg(3, params)
+     call get_command_argument(3, params)
   endif
 
 #if ADIOS2_USE_MPI
@@ -184,8 +184,8 @@ program TestSstWrite
      call adios2_put(sstWriter, variables(6), data_R64, ierr)
      call adios2_put(sstWriter, variables(7), data_R64_2d, ierr)
      call adios2_put(sstWriter, variables(8), data_R64_2d_rev, ierr)
-     localtime = 0    ! should be time(), but non-portable and value is unused
-     call adios2_put(sstWriter, variables(9), loc(localtime), ierr)
+     !localtime = 0    ! should be time(), but non-portable and value is unused
+     !call adios2_put(sstWriter, variables(9), loc(localtime), ierr)
      call adios2_put(sstWriter, variables(10), data_C32, ierr)
      call adios2_put(sstWriter, variables(11), data_C64, ierr)
      call adios2_end_step(sstWriter, ierr)

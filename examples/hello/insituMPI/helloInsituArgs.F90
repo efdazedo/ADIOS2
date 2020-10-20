@@ -35,12 +35,6 @@ end subroutine usage
 !!***************************
 subroutine processArgs(rank, nproc, isWriter)
 
-#if defined(_CRAYFTN) || !defined(__GFORTRAN__) && !defined(__GNUC__)
-    interface
-         integer function iargc()
-         end function iargc
-    end interface
-#endif
 
     integer, intent(in) :: rank
     integer, intent(in) :: nproc
@@ -57,20 +51,20 @@ subroutine processArgs(rank, nproc, isWriter)
     endif
 
     !! process arguments
-    numargs = iargc()
+    numargs = command_argument_count()
     !print *,"Number of arguments:",numargs
     if ( numargs < expargs ) then
         call usage(isWriter)
         call exit(1)
     endif
-    call getarg(1, xmlfile)
-    call getarg(2, npx_str)
-    call getarg(3, npy_str)
+    call get_command_argument(1, xmlfile)
+    call get_command_argument(2, npx_str)
+    call get_command_argument(3, npy_str)
     if (isWriter) then 
-        call getarg(4, ndx_str)
-        call getarg(5, ndy_str)
-        call getarg(6, steps_str)
-        call getarg(7, time_str)
+        call get_command_argument(4, ndx_str)
+        call get_command_argument(5, ndy_str)
+        call get_command_argument(6, steps_str)
+        call get_command_argument(7, time_str)
     endif
     read (npx_str,'(i5)') npx
     read (npy_str,'(i5)') npy

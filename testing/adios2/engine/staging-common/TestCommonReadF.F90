@@ -15,7 +15,7 @@ program TestSstRead
 #ifndef __GFORTRAN__
 #ifndef __GNUC__
   interface
-     integer function iargc()
+     integer function command_argument_count()
      end function iargc
   end interface
 #endif
@@ -43,7 +43,7 @@ program TestSstRead
   integer(kind = 8), dimension(:), allocatable::shape_in
   integer::key, color
   
-  numargs = iargc()
+  numargs = command_argument_count()
 
   if ( numargs < 2 ) then
      call usage()
@@ -51,10 +51,10 @@ program TestSstRead
   endif
 
 
-  call getarg(1, engine)
-  call getarg(2, filename)
+  call get_command_argument(1, engine)
+  call get_command_argument(2, filename)
   if ( numargs > 2 ) then
-     call getarg(3, params)
+     call get_command_argument(3, params)
   endif
 
   insteps = 0;
